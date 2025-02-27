@@ -79,10 +79,35 @@ p {
   padding: 14px;
   border-radius: 14px;
   background: white;
+  transition: background 0.3s ease-in-out; /* Smooth transition */
+}
+
+.todoItem.done {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.7;
+  background: #f0f0f0; /* Slightly dimmer white */
+}
+
+.todoText {
+  flex: 1; /* Expands to take up available space */
+  text-align: left; /* Ensures proper text alignment */
 }
 
 .todoItem p {
   flex: 1;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem; /* Adjust size to match */
+  color: #202124;
+}
+
+.toggleButton:hover {
+  opacity: 0.7;
 }
 
 .actionsContainer {
@@ -101,8 +126,6 @@ p {
 .actionsContainer button:hover {
   opacity: 0.7;
 }
-
-
 
 @media (min-width: 640px) {
 

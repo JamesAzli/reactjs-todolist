@@ -7,14 +7,14 @@ function App() {
   const [todos, setTodos] = useState([])
   const [todoValue, setTodoValue] = useState('')
 
-  function persistData(newList){
-    localStorage.setItem('todos', JSON.stringify({todos: newList }))
+  function persistData(newList) {
+    localStorage.setItem("todos", JSON.stringify(newList || [])); // ✅ Store as array
   }
 
   function handleAddTodos(newTodo) {
-    const newTodoList = [...todos, newTodo]
-    persistData(newTodoList)
-    setTodos(newTodoList)
+    const newTodoList = [...todos, { text: newTodo, isDone: false }]; // ✅ Store as object
+    persistData(newTodoList);
+    setTodos(newTodoList);
   }
 
   function handleDeleteTodo(index) {
@@ -26,36 +26,40 @@ function App() {
   }
 
   function handleEditTodo(index) {
-    const valueToBeEdited = todos[index]
-    setTodoValue(valueToBeEdited)
-    handleDeleteTodo(index)
+    const valueToBeEdited = todos[index].text; // ✅ Access text property
+    setTodoValue(valueToBeEdited);
+    handleDeleteTodo(index);
+  }
+
+  function handleToggleDone(index) {
+    const updatedTodos = todos.map((todo, i) =>
+      i === index ? { ...todo, isDone: !todo.isDone } : todo
+    );
+    persistData(updatedTodos);
+    setTodos(updatedTodos);
   }
 
   useEffect(() => {
-    if(!localStorage) {
-      return
+    const localTodos = JSON.parse(localStorage.getItem("todos"));
+    if (Array.isArray(localTodos)) {
+      setTodos(localTodos);
+    } else {
+      setTodos([]); // ✅ Ensure it's always an array
     }
-
-    let localTodos = localStorage.getItem('todos')
-    if(!localTodos){
-      return
-    }
-    localTodos = JSON.parse(localTodos).todos
-    setTodos(localTodos)
-
-  },[])
+  }, [])
 
   return (
     <>
       <TodoInput
-        handleAddTodos={handleAddTodos} 
+        handleAddTodos={handleAddTodos}
         todoValue={todoValue}
         setTodoValue={setTodoValue}
       />
       <TodoList
         handleDeleteTodo={handleDeleteTodo}
-        todos={todos}
+        todos={todos || []} 
         handleEditTodo={handleEditTodo}
+        handleToggleDone={handleToggleDone}
       />
 
     </>
