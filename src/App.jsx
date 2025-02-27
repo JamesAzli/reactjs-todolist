@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react"
 import TodoInput from "./components/TodoInput"
 import TodoList from "./components/TodoList"
+import registerServiceWorker from "./service-worker-registration"
 
 function App() {
 
   const [todos, setTodos] = useState([])
   const [todoValue, setTodoValue] = useState('')
+
+  useEffect(() => {
+    registerServiceWorker(); // ✅ Register service worker
+  }, []);
 
   function persistData(newList) {
     localStorage.setItem("todos", JSON.stringify(newList || [])); // ✅ Store as array

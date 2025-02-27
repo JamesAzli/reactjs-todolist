@@ -10,8 +10,8 @@ export default function TodoList(props) {
         <TodoCard 
           key={todoIndex}
           index={todoIndex}
-          text={todo.text}  // ✅ Pass todo.text explicitly
-          isDone={todo.isDone} // ✅ Ensure isDone is passed
+          text={todo.text} 
+          isDone={todo.isDone} 
           handleDeleteTodo={handleDeleteTodo}
           handleEditTodo={handleEditTodo}
           handleToggleDone={handleToggleDone}
